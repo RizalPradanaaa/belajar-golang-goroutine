@@ -133,3 +133,34 @@ func TestRangeChannel(t *testing.T) {
 
 	time.Sleep(2 * time.Second)
 }
+
+
+// Membuat Select Multiple Channel
+// Kadang ada kasus dimana kita membuat beberapa channel, dan menjalankan beberapa goroutine
+// Lalu kita ingin mendapatkan data dari semua channel tersebu
+func TestMultipleChannel(t *testing.T) {
+	channel1 := make(chan string)
+	channel2 := make(chan string)
+	defer close(channel1)
+	defer close(channel2)
+
+	go GiveMeResponse(channel1)
+	go GiveMeResponse(channel2)
+
+	counter := 0
+
+	for {
+		select{
+		case data := <- channel1:
+			println("Data dari channel1", data)
+			counter++
+		case data := <- channel2:
+			println("Data dari channel2", data)
+			counter++
+		}
+
+		if counter == 2 {
+			break
+		}
+	}
+}
