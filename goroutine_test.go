@@ -50,3 +50,20 @@ func TestChannel(t *testing.T) {
 	// Untuk menutup channel
 	close(channel)
 }
+
+
+// Channel Sebagai Paramater
+func GiveMeResponse(channel chan string)  {
+	time.Sleep(2 * time.Second)
+	channel <- "Rizal Pradana"
+}
+
+func TestChannelAsParameter(t *testing.T) {
+	channel := make(chan string)
+
+	go GiveMeResponse(channel)
+
+	data := <- channel
+	fmt.Println(data)
+	close(channel)
+}
