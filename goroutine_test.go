@@ -2,6 +2,7 @@ package belajargolanggoroutine
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -110,6 +111,25 @@ func TestBufferedChannel(t *testing.T) {
 	println(<- channel)
 	// Akan terjadi Deadlock karena kapasitas buffer hanya 3
 	// println(<- channel)
+
+	time.Sleep(2 * time.Second)
+}
+
+
+// Membuat Range Channel
+func TestRangeChannel(t *testing.T) {
+	channel := make(chan string)
+
+	go func() {
+		for i := 0; i <= 10; i++ {
+			channel <- "Perulangan Ke " + strconv.Itoa(i)
+		}
+		defer close(channel)
+	}()
+
+	for data := range channel {
+		println(data)
+	}
 
 	time.Sleep(2 * time.Second)
 }
