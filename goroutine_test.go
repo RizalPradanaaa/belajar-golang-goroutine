@@ -157,10 +157,14 @@ func TestMultipleChannel(t *testing.T) {
 		case data := <- channel2:
 			println("Data dari channel2", data)
 			counter++
+		default:
+			println("Menunggu Data")
 		}
 
 		if counter == 2 {
 			break
 		}
 	}
+
+	time.Sleep(1 * time.Second)
 }
