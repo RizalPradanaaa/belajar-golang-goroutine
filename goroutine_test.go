@@ -3,6 +3,7 @@ package belajargolanggoroutine
 import (
 	"fmt"
 	"strconv"
+	"sync"
 	"testing"
 	"time"
 )
@@ -170,12 +171,16 @@ func TestMultipleChannel(t *testing.T) {
 }
 
 // Race Condition
+// Mengatasi Race Condition dengan sync.Mute
 func TestRaceCondition(t *testing.T) {
 	var x = 0
-	for i := 0; i <= 1000; i++ {
+	var mutex sync.Mutex
+	for i := 1; i <= 1000; i++ {
 		go func() {
-			for j := 0; j <= 100; j++ {
+			for j := 1; j <= 100; j++ {
+				mutex.Lock()
 				x = x + 1
+				mutex.Unlock()
 			}
 		}()
 	}
