@@ -67,3 +67,26 @@ func TestChannelAsParameter(t *testing.T) {
 	fmt.Println(data)
 	close(channel)
 }
+
+// Membuat Channel In dan Out
+// Kadang kita ingin memberi tahu terhadap function, misal bahwa channel tersebut hanya digunakan
+// untuk mengirim data, atau hanya dapat digunakan untuk menerima data
+func OnlyIn(channel chan<- string)  {
+	time.Sleep(2 * time.Second)
+	channel <- "Rizal Pradana"
+}
+
+func OnlyOut(channel <-chan string)  {
+	data := <- channel
+	fmt.Println(data)
+}
+
+func TestInOutChannel(t *testing.T) {
+	channel := make(chan string)
+
+	go OnlyIn(channel)
+	go OnlyOut(channel)
+
+	time.Sleep(3 * time.Second)
+	close(channel)
+}
