@@ -90,3 +90,26 @@ func TestInOutChannel(t *testing.T) {
 	time.Sleep(3 * time.Second)
 	close(channel)
 }
+
+
+// Membuat Buffered Channel
+// Secara default channel itu hanya bisa menerima 1 data
+// Untuknya ada Buffered Channel, yaitu buffer yang bisa digunakan untuk menampung data antrian
+
+func TestBufferedChannel(t *testing.T) {
+	// untuk capacity buffered channel 3
+	channel := make(chan string, 3)
+	defer close(channel)
+
+	channel <- "Rizal"
+	channel <- "Nawang"
+	channel <- "Pradana"
+
+	println(<- channel)
+	println(<- channel)
+	println(<- channel)
+	// Akan terjadi Deadlock karena kapasitas buffer hanya 3
+	// println(<- channel)
+
+	time.Sleep(2 * time.Second)
+}
