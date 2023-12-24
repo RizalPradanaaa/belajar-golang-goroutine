@@ -31,3 +31,22 @@ func TestManyGoroutines(t *testing.T) {
 	time.Sleep(2 * time.Second)
 	fmt.Println("Selesai")
 }
+
+
+// Membuat Channel
+func TestChannel(t *testing.T) {
+	// Membuat Channel
+	channel := make(chan string)
+
+	// Mengisi channel / mengirim data
+	go func() {
+		time.Sleep(2 * time.Second)
+		channel <- "Rizal Pradana"
+	}()
+
+	// Menerima data dari channel
+	data := <- channel
+	fmt.Println(data)
+	// Untuk menutup channel
+	close(channel)
+}
