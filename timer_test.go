@@ -14,3 +14,12 @@ func TestTimer(t *testing.T) {
 	time := <- timer.C
 	fmt.Println(time)
 }
+
+
+// time.After()
+func TestTimerAfter(t *testing.T) {
+	channel := time.After(3 * time.Second)
+
+	tick := <- channel
+	fmt.Println(tick)
+}
