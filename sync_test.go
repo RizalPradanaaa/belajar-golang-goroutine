@@ -3,6 +3,7 @@ package belajargolanggoroutine
 import (
 	"fmt"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -133,4 +134,22 @@ func TestCond(t *testing.T) {
 	}()
 
 	group.Wait()
+}
+
+// Atomic
+func TestAtomic(t *testing.T) {
+	var group sync.WaitGroup
+	var counter int64 = 0
+	for i := 1; i <= 100; i++ {
+		group.Add(1)
+		go func() {
+			for j := 1; j <= 100; j++ {
+				atomic.AddInt64(&counter, 1)
+			}
+			group.Done()
+		}()
+	}
+
+	group.Wait()
+	fmt.Println("Counter", counter)
 }
