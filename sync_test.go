@@ -1,8 +1,10 @@
 package belajargolanggoroutine
 
 import (
+	"fmt"
 	"sync"
 	"testing"
+	"time"
 )
 
 // sync.WaitGroup
@@ -52,4 +54,32 @@ func TestOnce(t *testing.T) {
 	println(counter)
 	println("Complete")
 
+}
+
+
+// sync.Pool
+func TestPool(t *testing.T) {
+	var pool =  sync.Pool{
+		// Membuat Data Pool Otomatis
+		New: func () interface{} {
+			return "New"
+		},
+	}
+
+	// Menambahkan data pada pool
+	pool.Put("Rizal")
+	pool.Put("Nawang")
+	pool.Put("Pradana")
+
+	for i := 1; i <= 10; i++ {
+		go func() {
+			// Mengambil data pool
+			data := pool.Get()
+			fmt.Println(data)
+			// Menambahkan lagi
+			pool.Put(data)
+		}()
+	}
+
+	time.Sleep(2 * time.Second)
 }
