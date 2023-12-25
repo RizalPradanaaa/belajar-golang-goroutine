@@ -104,3 +104,33 @@ func TestMap(t *testing.T) {
 	})
 
 }
+
+
+// sync.Cond
+var cond = sync.NewCond(&sync.Mutex{})
+var group = &sync.WaitGroup{}
+
+func WaitCond(value int)  {
+	cond.L.Lock()
+	group.Wait()
+	fmt.Println("Done ", value)
+	cond.L.Unlock()
+	group.Done()
+}
+
+func TestCond(t *testing.T) {
+	for i := 1; i <= 10; i++ {
+		group.Add(1)
+		go WaitCond(i)
+	}
+
+	go func() {
+		for i := 1; i <= 10; i++ {
+			time.Sleep(1 * time.Second)
+			cond.Broadcast()
+			// cond.Signal()
+		}
+	}()
+
+	group.Wait()
+}
