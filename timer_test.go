@@ -2,6 +2,7 @@ package belajargolanggoroutine
 
 import (
 	"fmt"
+	"sync"
 	"testing"
 	"time"
 )
@@ -22,4 +23,18 @@ func TestTimerAfter(t *testing.T) {
 
 	tick := <- channel
 	fmt.Println(tick)
+}
+
+
+// time.AfterFunc()
+func TestAfterFunc(t *testing.T) {
+	group := sync.WaitGroup{}
+	group.Add(1)
+
+	time.AfterFunc(1 * time.Second, func() {
+		fmt.Println("Execution after 1 second")
+		group.Done()
+	})
+
+	group.Wait()
 }
