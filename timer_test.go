@@ -2,6 +2,7 @@ package belajargolanggoroutine
 
 import (
 	"fmt"
+	"runtime"
 	"sync"
 	"testing"
 	"time"
@@ -58,4 +59,17 @@ func TestTick(t *testing.T) {
 	for tick := range channel {
 		fmt.Println(tick)
 	}
+}
+
+
+// GOMAXPROCS
+func TestGOMAX(t *testing.T) {
+	totalCPU := runtime.NumCPU()
+	fmt.Println("Total CPU", totalCPU)
+
+	totalThreads := runtime.GOMAXPROCS(-1)
+	fmt.Println("Total threads", totalThreads)
+
+	totalGoroutine := runtime.NumGoroutine()
+	fmt.Println("Total Goroutine", totalGoroutine)
 }
