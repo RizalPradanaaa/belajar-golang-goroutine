@@ -48,3 +48,14 @@ func TestTicker(t *testing.T) {
 		fmt.Println(tick)
 	}
 }
+
+
+
+// time.Tick
+func TestTick(t *testing.T) {
+	channel := time.Tick(1 * time.Second)
+
+	for tick := range channel {
+		fmt.Println(tick)
+	}
+}
